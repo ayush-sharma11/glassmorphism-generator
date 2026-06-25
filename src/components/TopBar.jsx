@@ -1,6 +1,6 @@
 export default function TopBar({
   onRandomize, onReset, onToggleCode, onCopyCSS, onDownload,
-  isDarkMode, onToggleTheme, isSidebarOpen, onToggleSidebar
+  isDarkMode, onToggleTheme, isSidebarOpen, onToggleSidebar, isCodeOpen
 }) {
   return (
     <header className="topbar">
@@ -72,10 +72,13 @@ export default function TopBar({
             )}
           </svg>
         </button>
-        <button className="btn btn-icon" id="btn-toggle-code" title="Toggle Code Panel" onClick={onToggleCode}>
+        <button className={`btn btn-icon ${isCodeOpen ? 'active' : ''}`} id="btn-toggle-code" title="Toggle Code Panel" onClick={onToggleCode}>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <rect x="3" y="3" width="18" height="18" rx="2" />
             <line x1="3" y1="15" x2="21" y2="15" />
+            {isCodeOpen && (
+              <path d="M3 15h18v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-6z" fill="currentColor" stroke="none" />
+            )}
           </svg>
         </button>
       </div>

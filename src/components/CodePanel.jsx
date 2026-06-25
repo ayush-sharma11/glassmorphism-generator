@@ -5,8 +5,10 @@ export default function CodePanel({ isOpen, cssCode, onCopy, onClose }) {
   const highlightedCode = useMemo(() => {
     if (!cssCode) return '';
     return cssCode
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
       .replace(/\/\*.*?\*\//gs, m => `<span class="css-comment">${m}</span>`)
-      .replace(/<!--.*?-->/g, m => `<span class="css-comment">${m}</span>`)
+      .replace(/&lt;!--.*?--&gt;/g, m => `<span class="css-comment">${m}</span>`)
       .replace(/(\.liquid-glass)/g, '<span class="css-sel">$1</span>')
       .replace(
         /(\b(?:width|height|border-radius|backdrop-filter|background|border|box-shadow|filter|display|align-items|justify-content|position|overflow|-webkit-backdrop-filter)\b)(?=\s*:)/g,

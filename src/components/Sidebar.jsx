@@ -51,13 +51,33 @@ export default function Sidebar({ state, setProperty, setBackground, onCopyCSS, 
         </div>
 
         <SliderControl
-          label="Icon Size"
-          id="ctrl-icon-size"
-          value={state.iconSize}
+          label="Symbol Size"
+          id="ctrl-symbol-size"
+          value={state.symbolSize}
           min={10}
-          max={80}
-          displayValue={`${state.iconSize}%`}
-          onChange={(val) => setProperty('iconSize', val)}
+          max={200}
+          displayValue={`${state.symbolSize}px`}
+          onChange={(val) => setProperty('symbolSize', val)}
+        />
+
+        <ColorControl
+          label="Symbol Color"
+          id="ctrl-symbol-color"
+          value={state.symbolColor}
+          onChange={(val) => setProperty('symbolColor', val)}
+        />
+
+        <SelectControl
+          label="Font Weight"
+          id="ctrl-symbol-weight"
+          value={state.symbolWeight}
+          options={[
+            { value: '300', label: 'Light' },
+            { value: '400', label: 'Normal' },
+            { value: '600', label: 'Semi Bold' },
+            { value: '700', label: 'Bold' },
+          ]}
+          onChange={(val) => setProperty('symbolWeight', val)}
         />
 
         <SliderControl
@@ -82,15 +102,17 @@ export default function Sidebar({ state, setProperty, setBackground, onCopyCSS, 
           />
         )}
 
-        <SliderControl
-          label="Corner Radius"
-          id="ctrl-radius"
-          value={state.radius}
-          min={0}
-          max={220}
-          displayValue={`${state.radius}px`}
-          onChange={(val) => setProperty('radius', val)}
-        />
+        {!(state.shape === 'circle' || state.shape === 'pill') && (
+          <SliderControl
+            label="Corner Radius"
+            id="ctrl-radius"
+            value={state.radius}
+            min={0}
+            max={220}
+            displayValue={`${state.radius}px`}
+            onChange={(val) => setProperty('radius', val)}
+          />
+        )}
       </Section>
 
       {/* Glass Properties Section */}

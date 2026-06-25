@@ -74,8 +74,7 @@ export default function GlassElement({ state, style: positionStyle }) {
   }, [state, positionStyle]);
 
   const opacity = state.opacity / 100;
-  const h = state.shape === 'circle' ? state.width : state.height;
-  const fontSize = (h * state.iconSize / 100) + 'px';
+  const fontSize = state.symbolSize + 'px';
   const symbolOpacity = opacity > 0.5 ? 0.9 : 0.7 + opacity * 0.4;
 
   return (
@@ -88,7 +87,12 @@ export default function GlassElement({ state, style: positionStyle }) {
       <div className="glass-content">
         <span
           className="glass-symbol"
-          style={{ fontSize, opacity: symbolOpacity }}
+          style={{ 
+            fontSize, 
+            opacity: symbolOpacity,
+            color: state.symbolColor,
+            fontWeight: state.symbolWeight
+          }}
         >
           {state.symbol}
         </span>

@@ -4,7 +4,7 @@ import { useReducer, useCallback, useMemo } from 'react';
 export const DEFAULTS = {
   shape: 'pill',
   symbol: '',
-  iconSize: 35,
+  symbolSize: 35,
   width: 385,
   height: 170,
   radius: 170,
@@ -17,6 +17,8 @@ export const DEFAULTS = {
   tintColor: '#ffffff',
   tintStrength: 10,
   borderWidth: 1.5,
+  symbolColor: '#ffffff',
+  symbolWeight: '400',
   bg: 'gradient-1',
   glassX: null,
   glassY: null,
@@ -89,7 +91,7 @@ function glassReducer(state, action) {
         ...state,
         shape,
         symbol,
-        iconSize: 20 + Math.floor(Math.random() * 50),
+        symbolSize: 20 + Math.floor(Math.random() * 50),
         width: 150 + Math.floor(Math.random() * 400),
         height: 100 + Math.floor(Math.random() * 300),
         radius: Math.floor(Math.random() * 180),
@@ -102,6 +104,8 @@ function glassReducer(state, action) {
         tintStrength: 3 + Math.floor(Math.random() * 20),
         borderWidth: 0.5 + Math.round(Math.random() * 3 * 2) / 2,
         tintColor: rndColor,
+        symbolColor: '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0'),
+        symbolWeight: ['300', '400', '600', '700'][Math.floor(Math.random() * 4)],
         bg,
         glassX: null,
         glassY: null,
@@ -208,15 +212,17 @@ export function generateCSS(state) {
   css += `  position: relative;\n`;
   css += `  z-index: 5;\n`;
   css += `  display: flex;\n`;
-  css += `  flex-direction: column;\n`;
   css += `  justify-content: center;\n`;
   css += `  align-items: center;\n`;
+  css += `  width: 100%;\n`;
   css += `  height: 100%;\n`;
   css += `  pointer-events: none;\n`;
   css += `}\n\n`;
 
   css += `.glass-symbol {\n`;
-  css += `  color: rgba(255,255,255,0.75);\n`;
+  css += `  font-size: ${state.symbolSize}px;\n`;
+  css += `  font-weight: ${state.symbolWeight};\n`;
+  css += `  color: ${state.symbolColor};\n`;
   css += `  text-shadow: 0 1px 4px rgba(0,0,0,0.15), 0 0 20px rgba(255,255,255,0.08);\n`;
   css += `}\n`;
 

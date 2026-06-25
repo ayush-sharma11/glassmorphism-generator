@@ -3,7 +3,8 @@ import TopBar from './components/TopBar';
 import Viewport from './components/Viewport';
 import Sidebar from './components/Sidebar';
 import CodePanel from './components/CodePanel';
-import Toast, { showToast } from './components/Toast';
+import Toast from './components/Toast';
+import { showToast } from './utils/toast';
 import useGlassState, { hexToRgb, GRAD_STOPS } from './hooks/useGlassState';
 
 const CANVAS_W = 700;
@@ -47,10 +48,19 @@ export default function App() {
 
   // ─── Custom background upload ─────────────────
   const handleCustomUpload = useCallback((dataUrl) => {
+    const existing = customBgs.find(bg => bg.url === dataUrl);
+    if (existing) {
+      setBackground(existing.id);
+      return;
+    }
     const newId = `custom-${Date.now()}`;
-    setCustomBgs(prev => [...prev, { id: newId, url: dataUrl }]);
+    setCustomBgs(prev => {
+      const updated = [...prev, { id: newId, url: dataUrl }];
+      if (updated.length > 8) return updated.slice(-8);
+      return updated;
+    });
     setBackground(newId);
-  }, [setBackground]);
+  }, [customBgs, setBackground]);
 
   // ─── Download PNG ─────────────────────────────
   const downloadPNG = useCallback(() => {
@@ -173,8 +183,9 @@ export default function App() {
       if (state.symbol) {
         const opacity = state.opacity / 100;
         const symbolOpacity = opacity > 0.5 ? 0.9 : 0.7 + opacity * 0.4;
-        ctx.fillStyle = `rgba(255, 255, 255, ${symbolOpacity.toFixed(2)})`;
-        ctx.font = `${h * state.iconSize / 100}px Inter, sans-serif`;
+        const sColorRgb = hexToRgb(state.symbolColor || '#ffffff');
+        ctx.fillStyle = `rgba(${sColorRgb.r}, ${sColorRgb.g}, ${sColorRgb.b}, ${symbolOpacity.toFixed(2)})`;
+        ctx.font = `${state.symbolWeight || '400'} ${state.symbolSize}px Inter, sans-serif`;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText(state.symbol, x + w / 2, y + h / 2);
@@ -219,6 +230,7 @@ export default function App() {
         onToggleTheme={() => setIsDarkMode(prev => !prev)}
         isSidebarOpen={isSidebarOpen}
         onToggleSidebar={() => setIsSidebarOpen(prev => !prev)}
+        isCodeOpen={codeOpen}
       />
 
       <div className="main-content">
