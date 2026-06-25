@@ -5,7 +5,7 @@ export default function TopBar({
   return (
     <header className="topbar">
       <div className="topbar-brand">
-        <img src="/favicon.svg" alt="Logo" className="topbar-logo" />
+        <img src={`${import.meta.env.BASE_URL}favicon.svg`} alt="Logo" className="topbar-logo" />
         <h1 className="topbar-title">Glassmorphism Generator</h1>
       </div>
       <div className="topbar-actions">

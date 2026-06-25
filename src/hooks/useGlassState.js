@@ -37,10 +37,10 @@ export const GRAD_STOPS = {
 };
 
 export const BG_IMAGES = {
-  'img-crystal': '/backgrounds/crystal_prism.png',
-  'img-gradient': '/backgrounds/gradient_flow.png',
-  'img-holo': '/backgrounds/holographic_metal.png',
-  'img-neon': '/backgrounds/neon_lights.png',
+  'img-crystal': `${import.meta.env.BASE_URL}backgrounds/crystal_prism.png`,
+  'img-gradient': `${import.meta.env.BASE_URL}backgrounds/gradient_flow.png`,
+  'img-holo': `${import.meta.env.BASE_URL}backgrounds/holographic_metal.png`,
+  'img-neon': `${import.meta.env.BASE_URL}backgrounds/neon_lights.png`,
 };
 
 export const SYMBOLS = [
